@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app_v1/ui/routes/app_navigator.dart';
+import 'package:movie_app_v1/src/exports.dart';
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key});

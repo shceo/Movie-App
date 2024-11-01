@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movie_app_v1/ui/routes/app_routes.dart';
+import 'package:movie_app_v1/src/ui/routes/app_routes.dart';
 // import 'package:provider/provider.dart';
 
 // class FavoriteModel extends ChangeNotifier {

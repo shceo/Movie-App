@@ -1,9 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movie_app_v1/api/movie_data.dart';
-import 'package:movie_app_v1/models/details.dart';
-import 'package:movie_app_v1/ui/routes/app_routes.dart';
+import 'package:movie_app_v1/src/exports.dart';
+
 
 class ReleaseSliderWidget extends StatelessWidget {
   const ReleaseSliderWidget({super.key, required this.snapshot});

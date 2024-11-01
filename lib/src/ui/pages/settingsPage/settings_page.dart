@@ -1,7 +1,7 @@
 // пока не рабочая часть кода- наверное не добавлю логику сюда
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movie_app_v1/ui/theme/app_colors.dart';
+import 'package:movie_app_v1/src/ui/theme/app_colors.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});

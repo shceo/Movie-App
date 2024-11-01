@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app_v1/api/api.dart';
-import 'package:movie_app_v1/ui/components/release_slider_widget.dart';
-import 'package:movie_app_v1/ui/components/tab_bar_widget.dart';
-
-import '../ui/components/tab_indecator.dart';
-import '../ui/theme/app_colors.dart';
+import 'package:movie_app_v1/src/exports.dart';
 
 class AppBody extends StatefulWidget {
   const AppBody({

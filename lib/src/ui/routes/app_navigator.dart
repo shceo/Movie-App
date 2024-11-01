@@ -1,13 +1,13 @@
 import 'package:go_router/go_router.dart';
-import 'package:movie_app_v1/ui/pages/UserProfile/user_profile.dart';
-import 'package:movie_app_v1/ui/pages/error_pages/buy_premium_page.dart';
-import 'package:movie_app_v1/ui/pages/favoriteMovie/favorite_movie.dart';
-import 'package:movie_app_v1/ui/pages/home_page/home_page.dart';
-import 'package:movie_app_v1/ui/pages/info_movie/info_movie.dart';
-import 'package:movie_app_v1/ui/pages/search_page/search_page.dart';
-import 'package:movie_app_v1/ui/pages/settingsPage/settings_page.dart';
-import 'package:movie_app_v1/ui/pages/wantBuy/want_toBuy.dart';
-import 'package:movie_app_v1/ui/routes/app_routes.dart';
+import 'package:movie_app_v1/src/ui/pages/UserProfile/user_profile.dart';
+import 'package:movie_app_v1/src/ui/pages/error_pages/buy_premium_page.dart';
+import 'package:movie_app_v1/src/ui/pages/favoriteMovie/favorite_movie.dart';
+import 'package:movie_app_v1/src/ui/pages/home_page/home_page.dart';
+import 'package:movie_app_v1/src/ui/pages/info_movie/info_movie.dart';
+import 'package:movie_app_v1/src/ui/pages/search_page/search_page.dart';
+import 'package:movie_app_v1/src/ui/pages/settingsPage/settings_page.dart';
+import 'package:movie_app_v1/src/ui/pages/wantBuy/want_toBuy.dart';
+import 'package:movie_app_v1/src/ui/routes/app_routes.dart';
 
 
 class AppNavigator {

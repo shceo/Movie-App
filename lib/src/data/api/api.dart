@@ -1,7 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
-import 'package:movie_app_v1/api/cast_data.dart';
-import 'movie_data.dart';
+import 'package:movie_app_v1/src/exports.dart';
 
 class Api {
   static final apiKey = dotenv.get('API_KEY');

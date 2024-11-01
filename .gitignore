@@ -1,6 +1,7 @@
 # Miscellaneous
 *.class
 *.log
+*.env
 *.pyc
 *.swp
 .DS_Store
@@ -9,7 +10,6 @@
 .history
 .svn/
 migrate_working_dir/
-
 # IntelliJ related
 *.iml
 *.ipr

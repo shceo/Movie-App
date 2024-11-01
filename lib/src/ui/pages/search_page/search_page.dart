@@ -2,10 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movie_app_v1/api/api.dart';
-import 'package:movie_app_v1/api/movie_data.dart';
-import 'package:movie_app_v1/models/details.dart';
-import 'package:movie_app_v1/ui/theme/app_colors.dart';
+import 'package:movie_app_v1/src/exports.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);

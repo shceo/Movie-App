@@ -57,10 +57,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:movie_app_v1/components/app_body.dart';
-import 'package:movie_app_v1/ui/components/drawer_menu_button.dart';
-import 'package:movie_app_v1/ui/components/drawer_widget.dart';
-import 'package:movie_app_v1/ui/theme/app_colors.dart';
+import 'package:movie_app_v1/src/exports.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
