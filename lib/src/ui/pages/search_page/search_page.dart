@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_app_v1/src/exports.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -23,13 +25,13 @@ class _SearchPageState extends State<SearchPage> {
       });
     } catch (e) {
       Fluttertoast.showToast(
-          msg: "Ошибка при выполнени поиска $e",
-          // toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          fontSize: 16.0);
+        msg: "Ошибка при выполнении поиска $e",
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
   }
 
@@ -52,13 +54,6 @@ class _SearchPageState extends State<SearchPage> {
         leading: IconButton(
           onPressed: () {
             context.go('/');
-
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const HomePage(),
-            //   ),
-            // );
           },
           icon: const Icon(
             Icons.arrow_back_ios,
@@ -103,34 +98,55 @@ class _SearchPageState extends State<SearchPage> {
             Expanded(
               child: ListView.builder(
                 itemCount: _searchResults.length,
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    context.go('/infoMovie', extra: _searchResults[index]);
-                  },
-                  child: Card(
-                    color: Colors.white.withOpacity(0.1),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(24.0),
-                          child: Image.network(
-                            '${Deteils.imagePath}${_searchResults[index].posterPath}',
-                            width: 100.0,
-                            height: 100.0,
+                itemBuilder: (context, index) {
+                  final movie = _searchResults[index];
+                  return GestureDetector(
+                    onTap: () {
+                      context.go('/infoMovie', extra: movie);
+                    },
+                    child: Card(
+                      color: Colors.white.withOpacity(0.1),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(24.0),
+                            child: Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.white,
+                              child: Image.network(
+                                '${Deteils.imagePath}${movie.posterPath}',
+                                width: 100.0,
+                                height: 100.0,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 100,
+                                    height: 100,
+                                    color: Colors.grey,
+                                    alignment: Alignment.center,
+                                    child: const Icon(
+                                      Icons.error,
+                                      color: Colors.red,
+                                    ),
+                                  );
+                                },
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        Expanded(
-                          child: Text(
-                            _searchResults[index].title!,
-                            style: const TextStyle(color: Colors.white),
-                            overflow: TextOverflow.ellipsis,
+                          const SizedBox(width: 8.0),
+                          Expanded(
+                            child: AutoSizeText(
+                              movie.title!,
+                              style: const TextStyle(color: Colors.white),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
           ],

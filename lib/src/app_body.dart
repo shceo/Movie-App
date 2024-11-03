@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app_v1/src/exports.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AppBody extends StatefulWidget {
   const AppBody({
@@ -23,9 +25,10 @@ class _AppBodyState extends State<AppBody> with TickerProviderStateMixin {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          AutoSizeText(
             'Сегодня в тренде',
             style: TextStyle(color: AppColors.white, fontFamily: 'Axiforma'),
+            maxLines: 2,
           ),
           const SizedBox(height: 8),
           SizedBox(
@@ -34,45 +37,46 @@ class _AppBodyState extends State<AppBody> with TickerProviderStateMixin {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(
-                    child: Text(snapshot.error.toString()),
+                    child: AutoSizeText(
+                      snapshot.error.toString(),
+                      style: TextStyle(color: Colors.red),
+                      maxLines: 2,
+                    ),
                   );
                 } else if (snapshot.hasData) {
                   return ReleaseSliderWidget(
                     snapshot: snapshot,
                   );
                 } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Center(
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        // width: 200,
+                        // height: 20,
+                        color: Colors.white,
+                      ),
+                    ),
                   );
                 }
               },
             ),
           ),
       
-          // to here
           const SizedBox(height: 16),
-          // по желанию добавлю
-          // Text(
-          //   'Popular',
-          //   style: TextStyle(
-          //     color: AppColors.white,
-          //     fontFamily: 'Axiforma',
-          //   ),
-          // ),
-          const SizedBox(),
           Align(
             alignment: Alignment.centerLeft,
             child: TabBar(
               dividerColor: Colors.transparent,
               labelColor: Colors.white,
               unselectedLabelColor: Colors.grey,
-              // isScrollable: true,
               indicator: CircleTabIndicator(color: Colors.white, radius: 4),
               controller: tabController,
               tabs: const [
-                Tab(text: 'Популярные'),
-                Tab(text: 'Наивысший рейтинг'),
-                Tab(text: 'Предстоящие'),
+                Tab(child: AutoSizeText('Популярные', maxLines: 1)),
+                Tab(child: AutoSizeText('Наивысший рейтинг', maxLines: 1)),
+                Tab(child: AutoSizeText('Предстоящие', maxLines: 1)),
               ],
             ),
           ),
@@ -82,4 +86,3 @@ class _AppBodyState extends State<AppBody> with TickerProviderStateMixin {
     );
   }
 }
-

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_app_v1/src/exports.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:shimmer/shimmer.dart';
 
 class InfoMovie extends StatelessWidget {
   const InfoMovie({super.key});
@@ -8,8 +10,9 @@ class InfoMovie extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.notblack, 
-        body: const InfoMovieBody());
+      backgroundColor: AppColors.notblack,
+      body: const InfoMovieBody(),
+    );
   }
 }
 
@@ -18,19 +21,6 @@ class InfoMovieBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-// шткуа для получение жанра пока что самая сложная из всех
-    // String jsonString =
-    //     '{"genres":[{"id":28,"name":"боевик"},{"id":12,"name":"приключения"},{"id":16,"name":"мультфильм"},{"id":35,"name":"комедия"},{"id":80,"name":"криминал"},{"id":99,"name":"документальный"},{"id":18,"name":"драма"},{"id":10751,"name":"семейный"},{"id":14,"name":"фэнтези"},{"id":36,"name":"история"},{"id":27,"name":"ужасы"},{"id":10402,"name":"музыка"},{"id":9648,"name":"детектив"},{"id":10749,"name":"мелодрама"},{"id":878,"name":"фантастика"},{"id":10770,"name":"телевизионный фильм"},{"id":53,"name":"триллер"},{"id":10752,"name":"военный"},{"id":37,"name":"вестерн"}]}';
-
-    // Map<String, dynamic> jsonMap = jsonDecode(jsonString);
-
-    // Genres genresInstance = Genres.fromJson(jsonMap);
-    // Map<int, String> genreMap = {};
-
-    // for (var genre in genresInstance.genres!) {
-    //   genreMap[genre.id!] = genre.name!;
-    // }
-
     final res = GoRouter.of(context).routerDelegate.currentConfiguration.extra;
     final item = res is Results ? res : null;
 
@@ -38,12 +28,31 @@ class InfoMovieBody extends StatelessWidget {
       future: Api.getMovieCredits(item?.id ?? 0),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Ошибка: ${snapshot.error}'),
+            );
+          }
+
           return SingleChildScrollView(
             child: Column(
               children: [
                 Stack(
                   children: [
-                    Image.network('${Deteils.imagePath}${item?.backdropPath}'),
+                    Image.network(
+                      '${Deteils.imagePath}${item?.backdropPath}',
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey,
+                          child: const Center(
+                            child: Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                     Positioned(
                       top: 40.0,
                       left: 10.0,
@@ -96,22 +105,26 @@ class InfoMovieBody extends StatelessWidget {
                                         color: Colors.grey,
                                       ),
                                     ),
-
-                                    // TextSpan(
-
-                                    //   text: '${genreMap[item?.genreIds]}',
-
-                                    //   style: const TextStyle(
-                                    //     fontSize: 10.0,
-                                    //     color: Colors.grey,
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
                             ),
-                            Text(
-                              '☆☆☆☆☆☆☆☆\nРейтинг: ${item?.voteAverage?.toStringAsFixed(1)}/10',
+                            AutoSizeText(
+                              'Рейтинг: ${item?.voteAverage?.toStringAsFixed(1) ?? 'N/A'}/10\n' +
+                                  '★' *
+                                      (item?.voteAverage?.toInt() ??
+                                          0) + // Полные звезды
+                                  (item?.voteAverage != null &&
+                                          (item!.voteAverage! % 1) >= 0.5
+                                      ? '⭐️'
+                                      : '') + // Половинчатая звезда
+                                  '☆' *
+                                      (10 -
+                                          (item?.voteAverage?.toInt() ?? 0) -
+                                          (item?.voteAverage != null &&
+                                                  (item!.voteAverage! % 1) >= 0.5
+                                              ? 1
+                                              : 0)), // Пустые звезды
                               style: const TextStyle(
                                 fontSize: 16.0,
                                 color: Colors.white,
@@ -121,12 +134,15 @@ class InfoMovieBody extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 25.0),
-                        Text(
+                        AutoSizeText(
                           '${item?.overview}',
                           style: const TextStyle(
                             fontSize: 14.0,
                             color: Colors.grey,
                           ),
+                          maxLines: 3,
+                          minFontSize: 12,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 25.0),
                         const Text(
@@ -140,34 +156,85 @@ class InfoMovieBody extends StatelessWidget {
                         const SizedBox(height: 10.0),
                         Container(
                           height: 200.0,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, i) {
-                              final actorsName = snapshot.data?.cast?[i];
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 16.0),
-                                child: Column(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 50.0,
-                                      backgroundImage: NetworkImage(
-                                        '${Deteils.imagePath}${actorsName?.profilePath}',
+                          child: snapshot.hasData
+                              ? ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: snapshot.data?.cast?.length ?? 0,
+                                  itemBuilder: (context, i) {
+                                    final actorsName = snapshot.data?.cast?[i];
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 16.0),
+                                      child: Column(
+                                        children: [
+                                          ClipOval(
+                                            child: Image.network(
+                                              '${Deteils.imagePath}${actorsName?.profilePath}',
+                                              width: 100,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                              errorBuilder:
+                                                  (context, error, stackTrace) {
+                                                return Container(
+                                                  width: 100,
+                                                  height: 100,
+                                                  color: Colors.grey,
+                                                  alignment: Alignment.center,
+                                                  child: const Icon(
+                                                    Icons.error,
+                                                    color: Colors.red,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10.0),
+                                          AutoSizeText(
+                                            '${actorsName?.name}',
+                                            style: const TextStyle(
+                                              fontSize: 16.0,
+                                              color: Colors.white,
+                                            ),
+                                            maxLines: 1,
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    const SizedBox(height: 10.0),
-                                    Text(
-                                      '${actorsName?.name}',
-                                      style: const TextStyle(
-                                        fontSize: 16.0,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
+                                    );
+                                  },
+                                )
+                              : Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        5, // количество "актеров" для шиммера
+                                    itemBuilder: (context, i) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 16.0),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              width: 100,
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10.0),
+                                            Container(
+                                              width: 80,
+                                              height: 16,
+                                              color: Colors.white,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                              );
-                            },
-                            itemCount: snapshot.data?.cast?.length,
-                          ),
                         ),
                         const SizedBox(height: 25.0),
                         Row(
@@ -180,55 +247,11 @@ class InfoMovieBody extends StatelessWidget {
                               child: const Text(
                                 'Смотреть',
                                 style: TextStyle(
-                                    fontFamily: 'Axiforma',
-                                    fontWeight: FontWeight.w700),
+                                  fontFamily: 'Axiforma',
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
-
-                            // я попытался ¯\_(ツ)_/¯
-
-//                               void toggleFavoriteStatus() {
-//     setState(() {
-//       _isFavorite = !_isFavorite;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: AppColors.notblack,
-//       body: InfoMovieBody(
-//           isFavorite: _isFavorite, toggleFavoriteStatus: toggleFavoriteStatus),
-//     );
-//   }
-// }
-
-                            // IconButton(
-                            //   icon: Icon(
-                            //     isFavorite
-                            //         ? Icons.favorite
-                            //         : Icons.favorite_border,
-                            //     color: isFavorite ? Colors.red : Colors.grey,
-                            //   ),
-                            //   onPressed: () {
-                            //     final model = Provider.of<FavoriteModel>(
-                            //         context,
-                            //         listen: false);
-                            //     if (isFavorite) {
-                            //       model.remove(item as String);
-                            //     } else {
-                            //       model.add(item as String);
-                            //     }
-                            //     toggleFavoriteStatus();
-
-                            //     ScaffoldMessenger.of(context).showSnackBar(
-                            //       SnackBar(
-                            //           content: Text(isFavorite
-                            //               ? 'Удалено из Избранных'
-                            //               : 'Добавлено в Избранные')),
-                            //     );
-                            //   },
-                            // ),
                           ],
                         ),
                       ],
@@ -239,8 +262,12 @@ class InfoMovieBody extends StatelessWidget {
             ),
           );
         } else {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
           );
         }
       },
