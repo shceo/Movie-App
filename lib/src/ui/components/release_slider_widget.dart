@@ -44,8 +44,11 @@ class ReleaseSliderWidget extends StatelessWidget {
             context.go(AppRoutes.infoMovie, extra: item);
           },
           child: SizedBox(
-            height: 187,
-            width: 342,
+            height: MediaQuery.of(context).size.height *
+                0.25, // 25% от высоты экрана
+            width:
+                MediaQuery.of(context).size.width * 0.9, // 90% от ширины экрана
+
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
@@ -53,16 +56,20 @@ class ReleaseSliderWidget extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(24),
                 child: Container(
-                  padding: const EdgeInsets.only(left: 8, right: 15, bottom: 29),
+                  padding:
+                      const EdgeInsets.only(left: 8, right: 15, bottom: 29),
                   alignment: Alignment.bottomCenter,
                   decoration: BoxDecoration(
                     image: item?.backdropPath != null
                         ? DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage('${Deteils.imagePath}${item?.backdropPath}'),
+                            image: NetworkImage(
+                                '${Deteils.imagePath}${item?.backdropPath}'),
                           )
                         : null,
-                    color: item?.backdropPath == null ? Colors.grey.shade400 : null,
+                    color: item?.backdropPath == null
+                        ? Colors.grey.shade400
+                        : null,
                   ),
                   child: item?.backdropPath != null
                       ? Row(

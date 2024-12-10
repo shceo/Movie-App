@@ -41,6 +41,9 @@ class InfoMovieBody extends StatelessWidget {
                   children: [
                     Image.network(
                       '${Deteils.imagePath}${item?.backdropPath}',
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width * 9 / 16,
+                      fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
                           color: Colors.grey,
@@ -59,7 +62,7 @@ class InfoMovieBody extends StatelessWidget {
                       child: IconButton(
                         icon: const Icon(Icons.arrow_back, color: Colors.white),
                         onPressed: () {
-                          context.go('/');
+                          context.pop();
                         },
                       ),
                     ),
@@ -122,7 +125,8 @@ class InfoMovieBody extends StatelessWidget {
                                       (10 -
                                           (item?.voteAverage?.toInt() ?? 0) -
                                           (item?.voteAverage != null &&
-                                                  (item!.voteAverage! % 1) >= 0.5
+                                                  (item!.voteAverage! % 1) >=
+                                                      0.5
                                               ? 1
                                               : 0)), // Пустые звезды
                               style: const TextStyle(
@@ -154,7 +158,7 @@ class InfoMovieBody extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10.0),
-                        Container(
+                        SizedBox(
                           height: 200.0,
                           child: snapshot.hasData
                               ? ListView.builder(

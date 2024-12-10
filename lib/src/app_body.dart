@@ -75,7 +75,7 @@ class _AppBodyState extends State<AppBody> with TickerProviderStateMixin {
               controller: tabController,
               tabs: const [
                 Tab(child: AutoSizeText('Популярные', maxLines: 1)),
-                Tab(child: AutoSizeText('Наивысший рейтинг', maxLines: 1)),
+                Tab(child: AutoSizeText('Наивысший рейтинг',)),
                 Tab(child: AutoSizeText('Предстоящие', maxLines: 1)),
               ],
             ),
