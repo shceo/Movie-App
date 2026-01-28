@@ -1,9 +1,9 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 import 'package:movie_app_v1/src/exports.dart';
 
 class Api {
-  static final apiKey = dotenv.get('API_KEY');
+  static final apiKey = '04aea9bdbb080f621f2ca2e47c81262f';
   static final _trendingMovieUrl =
       'https://api.themoviedb.org/3/trending/movie/day?api_key=$apiKey&language=ru';
   static final _popularMovieUrl =

@@ -1,3 +1,5 @@
+export 'package:flutter/material.dart';
+
 export 'package:movie_app_v1/src/app_body.dart';
 export 'package:movie_app_v1/src/movie_app.dart';
 export 'package:movie_app_v1/src/data/api/api.dart';
