@@ -1,35 +1,36 @@
 name: movie_app_v1
-description: A new Flutter project.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+description: A movie app
+publish_to: 'none'
 
 version: 1.0.0+2
 
 environment:
-  sdk: '>=3.0.5 <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
+  flutter: '>=3.27.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
 
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.8
   # rive: ^0.10.4
-  flutter_svg: ^2.0.7
-  google_fonts: ^6.1.0
-  carousel_slider: ^5.0.0
-  dio: ^5.3.0
-  go_router: ^14.3.0
-  bloc: ^8.1.2
-  flutter_hooks: ^0.20.3
-  flutter_bloc: ^8.1.3
-  flutter_dotenv: ^5.1.0
-  connectivity: ^3.0.6
-  flutter_native_splash: ^2.3.3
-  fluttertoast: ^8.2.3
-  provider: ^6.0.1
-  flutter_launcher_icons: ^0.14.1
-  image_picker: ^1.0.4
-  sqlite3: ^2.5.0
+  flutter_svg: ^2.2.3
+  google_fonts: ^8.0.0
+  carousel_slider: ^5.1.1
+  dio: ^5.9.1
+  go_router: ^17.0.1
+  bloc: ^9.2.0
+  flutter_hooks: ^0.21.3+1
+  flutter_bloc: ^9.1.1
+  flutter_dotenv: ^6.0.0
+  connectivity_plus: ^7.0.0
+  flutter_native_splash: ^2.4.7
+  fluttertoast: ^9.0.0
+  provider: ^6.1.5+1
+  flutter_launcher_icons: ^0.14.4
+  image_picker: ^1.2.1
+  sqlite3: ^3.1.4
   auto_size_text: ^3.0.0
   shimmer: ^3.0.0
 
@@ -37,7 +38,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 # иконка
 flutter_icons:
     android: true
@@ -52,14 +53,6 @@ flutter:
     - assets/images/
     - .env
     - assets/icons/    
-    # - assets/samples/animations/
-    # - assets/samples/ui/rive_app/
-    # - assets/samples/ui/rive_app/rive/
-    # - assets/samples/ui/rive_app/images/
-    # - assets/samples/ui/rive_app/images/backgrounds/
-    # - assets/samples/ui/rive_app/images/topics/
-    # - assets/samples/ui/rive_app/images/avatars/
-
 
   fonts:
     - family: Axiforma
