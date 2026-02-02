@@ -1,5 +1,5 @@
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:movie_app_v1/src/exports.dart';
+import 'package:flutter/material.dart';
+import 'package:movie_app_v1/src/app/movie_app.dart';
 
 Future<void> main() async {
   // await dotenv.load(fileName: '.env');
@@ -7,5 +7,5 @@ Future<void> main() async {
   
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MovieApp());
+  runApp(MovieApp());
 }
